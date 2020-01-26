@@ -5,6 +5,7 @@ SilverStripe\Dev\DevBuildController:
   extensions:
     - SilverLeague\IDEAnnotator\Extensions\Annotatable
 SilverLeague\IDEAnnotator\DataObjectAnnotator:
+    enabled: true
     enabled_modules:
       - mysite
       - app
