@@ -12,6 +12,8 @@ This module generates @property, @method and @mixin tags for DataObjects, PageCo
 
 The docblocks can be generated/updated with each dev/build and with a DataObjectAnnotatorTask per module or classname.
 
+This is a tweaked version that is *automatically enabled by default*, and is meant as a 'one shot' fix for annotations.
+
 ## Requirements
 
 SilverStripe Framework and possible custom code.
@@ -25,15 +27,31 @@ SilverStripe 3.x framework
 SilverStripe 4.x
 
 ## Installation
-
-```json
-{
-  "require-dev": {
-    "silverleague/ideannotator": "3.x-dev"
-  }
-}
+Start by ensuring that the source code of your module is backed up in version control.  The module is then cloned and
+a dependency fixed.  The latter line is required due to dependency issues, see
+https://github.com/silverleague/silverstripe-ideannotator/issues/91
+```bash
+git clone -b enabled_by_defaut git@github.com:gordonbanderson/silverstripe-ideannotator.git
+composer require --dev phpdocumentor/reflection-docblock ^2
 ```
-Please note, this example omitted any possible modules you require yourself!
+
+Add your module to those that will be annotated, by editing silverstripe-ideaannotator/config/_config.yml, here is an
+example:
+
+```yml
+    enabled_modules:
+      - app
+      - mysite
+      - titledk/silverstripe-calendar
+```
+
+Note to use the packagist name, not the folder name.
+
+## Running
+Simply execute a flushed build to annotate your module
+```bash
+vendor/bin/sake dev/build flush=all
+```
 
 ## Example result
 
@@ -71,6 +89,13 @@ class NewsItem extends \SilverStripe\ORM\DataObject
         'Tags' => Tag::class
     );
 }
+```
+
+## Removing
+Once your module is annotated, remove the annotator module as follows:
+```bash
+composer remove phpdocumentor/reflection-docblock
+rm -rf silverstripe-ideannotator
 ```
 
 ## Further information
